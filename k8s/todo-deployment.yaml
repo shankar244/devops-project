@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: todo-app
+  template:
+    metadata:
+      labels: 
+        app: todo-app
+    spec: 
+      containers:
+      - name: todo-app
+        image: sanketf5/app_app:v1
+        ports:
+        - containerPort: 5000
+        env:
+        - name: DATABASE_URL
+          value: postgresql://todo_user:todo_password@postgres:5432/todo_db
