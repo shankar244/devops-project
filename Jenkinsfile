@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "sanketf5/todo-app"
+        DOCKER_IMAGE = "sanketf5/app_app"
     }
 
     stages {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:v1 .'
+                sh 'docker build -t $DOCKER_IMAGE:$BUILD_NUMBER .'
             }
         }
 
@@ -22,10 +22,16 @@ pipeline {
                 )]) {
 
                     sh 'echo $PASS | docker login -u $USER --password-stdin'
-                    sh 'docker push $DOCKER_IMAGE:v1'
+                    sh 'docker push $DOCKER_IMAGE:$BUILD_NUMBER'
                 }
             }
         }
 
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f k8s/'
+                sh 'kubectl set image deployment/todo-app todo-app=$DOCKER_IMAGE:$BUILD_NUMBER'
+            }
+        }
     }
 }
