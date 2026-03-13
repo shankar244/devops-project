@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_DB: todo_db
+      POSTGRES_USER: todo_user
+      POSTGRES_PASSWORD: todo_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+    - "5432:5432"
+
+  app:
+    image: sanketf5/app_app:v1
+    container_name: todo-app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://todo_user:todo_password@db:5432/todo_db
+
+volumes:
+  postgres_data:
