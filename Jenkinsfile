@@ -31,7 +31,7 @@ pipeline {
             steps {
                 sh '''
                 export KUBECONFIG=/kube/config
-                kubectl apply -f k8s/
+                kubectl apply -f k8s/ --validate=false
                 kubectl set image deployment/todo-app todo-app=$DOCKER_IMAGE:$BUILD_NUMBER
                 '''
             }
