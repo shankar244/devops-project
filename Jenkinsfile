@@ -30,7 +30,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                export KUBECONFIG=/home/ubuntu/.kube/config
+                export KUBECONFIG=/var/jenkins_home/.kube/config
                 kubectl apply -f k8s/
                 kubectl set image deployment/todo-app todo-app=$DOCKER_IMAGE:$BUILD_NUMBER
                 '''
