@@ -1,11 +1,21 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush()
+    }
+
     environment {
         DOCKER_IMAGE = "shankar244/app_app"
     }
 
     stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
@@ -20,7 +30,6 @@ pipeline {
                     usernameVariable: 'USER',
                     passwordVariable: 'PASS'
                 )]) {
-
                     sh 'echo $PASS | docker login -u $USER --password-stdin'
                     sh 'docker push $DOCKER_IMAGE:$BUILD_NUMBER'
                 }
