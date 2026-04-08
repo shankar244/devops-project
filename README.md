@@ -1,4 +1,4 @@
-# DevOps ToDo Application cicd
+# DevOps ToDo Application 
 
 This project demonstrates a complete DevOps pipeline.
 
