@@ -1,4 +1,4 @@
-# DevOps ToDo Application
+# DevOps ToDo Application to practice
 
 This project demonstrates a complete DevOps pipeline.
 
